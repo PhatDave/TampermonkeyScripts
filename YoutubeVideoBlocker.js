@@ -3,7 +3,7 @@
 // @author          Cyka
 // @include         *youtube.com/*
 // @exclude         *youtube.com/feed/subscriptions
-// @version         1.6
+// @version         1.7
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
@@ -13,7 +13,7 @@
 // @noframes
 // ==/UserScript==
 
-/* global GM_config */
+/* global GM_config, GM_info, GM_registerMenuCommand */
 
 GM_config.init({
 	id: 'configyes',
