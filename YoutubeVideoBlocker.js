@@ -3,7 +3,7 @@
 // @author          Cyka
 // @include         *youtube.com/*
 // @exclude         *youtube.com/feed/subscriptions
-// @version         1.5
+// @version         1.6
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
@@ -28,7 +28,10 @@ GM_config.init({
 			title: 'How many times must a video appear for it to be blocked'
 		}
 	}
-})
+});
+GM_registerMenuCommand('Settings', () => {
+	GM_config.open()
+});
 
 let persistenceKey = "seenVideos"
 // GM_setValue(persistenceKey, JSON.stringify("{}"))
