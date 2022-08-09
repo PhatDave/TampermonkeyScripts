@@ -2,8 +2,8 @@
 // @name            Subreddit blocker
 // @author          Cyka
 // @include         *reddit.com/*
-// @version         1.9
-// @run-at document-start
+// @version         1.10
+// @run-at          document-start
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
 // @require         file://C:/Users/Dave/WebstormProjects/TampermonkeyScripts/SubredditBlocker.js
