@@ -1,13 +1,14 @@
 // ==UserScript==
-// @name           Subreddit blocker
-// @author         Cyka
-// @include        *reddit.com/*
-// @version        1.6
+// @name            Subreddit blocker
+// @author          Cyka
+// @include         *reddit.com/*
+// @version         1.7
 // @run-at document-start
-// @updateURL   https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
-// @downloadURL https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
-// @grant          GM_getValue
-// @grant          GM_setValue
+// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
+// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
+// @require         C:\Users\Dave\WebstormProjects\TampermonkeyScripts\SubredditBlocker.js
+// @grant           GM_getValue
+// @grant           GM_setValue
 // @noframes
 // ==/UserScript==
 
