@@ -3,7 +3,7 @@
 // @author          Cyka
 // @include         *youtube.com/*
 // @exclude         *youtube.com/feed/subscriptions
-// @version         1.3
+// @version         1.4
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
@@ -12,6 +12,21 @@
 // @grant           GM_setValue
 // @noframes
 // ==/UserScript==
+
+GM_config.init({
+	id: 'configyes',
+	title: GM_info.script.name + ' Settings',
+	fields: {
+		BLOCK_THRESHOLD: {
+			label: 'Block threshold',
+			type: 'number',
+			min: 0,
+			max: 100,
+			default: 5,
+			title: 'How many times must a video appear for it to be blocked'
+		}
+	}
+})
 
 let persistenceKey = "seenVideos"
 // GM_setValue(persistenceKey, JSON.stringify("{}"))
@@ -50,7 +65,7 @@ function processElements(elements) {
 		videos[videoTitle]++;
 		// console.log(videos);
 
-		if (videos[videoTitle] > 5) {
+		if (videos[videoTitle] > GM_config.get('BLOCK_THRESHOLD')) {
 			video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
 			console.log(`Removing wideo ${videoTitle}`);
 		}
