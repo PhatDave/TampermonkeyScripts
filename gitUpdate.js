@@ -26,7 +26,7 @@ execute('git status', (out) => {
 			let fileDataLines = fileData.split("\n");
 			for (let i = 0; i < fileDataLines.length; i++) {
 				let line = fileDataLines[i];
-				if (/@version\s*\d+\.\d+\.\d+/.exec(line)) {
+				if (/@version\s*\d+\.\d+/.exec(line)) {
 					let version = /(.+@version\s*\d+\.)(\d+)/.exec(line);
 					let minorVersion = version[2];
 					minorVersion++;
