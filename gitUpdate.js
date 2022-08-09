@@ -20,6 +20,7 @@ execute('git status', (out) => {
 				console.log("Pushing changes...");
 				execute("git push", (out) => {
 					console.log("Pushed commit to remote");
+					console.log(out);
 					process.exit(0);
 				});
 			});
