@@ -2,7 +2,7 @@
 // @name           Subreddit blocker
 // @author         Cyka
 // @include        *reddit.com/*
-// @version        1.0
+// @version        1.0.0
 // @run-at document-start
 // @updateURL   https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
 // @downloadURL https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js

@@ -12,6 +12,7 @@ execute('git status', (out) => {
 		process.exit(0);
 	}
 
+	console.log(out);
 	if (out.includes("Changes not staged for commit") || out.includes("Untracked files")) {
 		execute('git add -A', (out) => {
 			console.log("Found modified files, doing commit...");
