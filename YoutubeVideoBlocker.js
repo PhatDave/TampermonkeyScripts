@@ -2,7 +2,8 @@
 // @name            Repeat youtube video blocker
 // @author          Cyka
 // @include         *youtube.com/*
-// @version         1.2
+// @exclude         *youtube.com/feed/subscriptions
+// @version         1.3
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
