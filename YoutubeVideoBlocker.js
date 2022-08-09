@@ -2,7 +2,7 @@
 // @name            Repeat youtube video blocker
 // @author          Cyka
 // @include         *youtube.com/*
-// @version         1.1
+// @version         1.2
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
@@ -51,6 +51,7 @@ function processElements(elements) {
 
 		if (videos[videoTitle] > 5) {
 			video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+			console.log(`Removing wideo ${videoTitle}`);
 		}
 	});
 	GM_setValue(persistenceKey, JSON.stringify(videos));
