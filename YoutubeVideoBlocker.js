@@ -3,11 +3,12 @@
 // @author          Cyka
 // @include         *youtube.com/*
 // @exclude         *youtube.com/feed/subscriptions
-// @version         1.7
+// @version         1.8
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @require         file://C:/Users/Dave/WebstormProjects/TampermonkeyScripts/YoutubeVideoBlocker.js
+// @require         https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant           GM_getValue
 // @grant           GM_setValue
 // @noframes
