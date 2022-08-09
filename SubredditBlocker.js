@@ -1,12 +1,11 @@
 // ==UserScript==
 // @name           Subreddit blocker
-// @description    Hide selected subreddits from r/all
-// @author         Jonatino
+// @author         Cyka
 // @include        *reddit.com/*
 // @version        1.0
 // @run-at document-start
-// @updateURL   https://raw.githubusercontent.com/Jonatino/subreddit-blocker/master/subreddit-blocker.user.js
-// @downloadURL https://raw.githubusercontent.com/Jonatino/subreddit-blocker/master/subreddit-blocker.user.js
+// @updateURL   https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
+// @downloadURL https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @noframes
