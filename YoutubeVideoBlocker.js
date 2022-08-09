@@ -4,6 +4,8 @@
 // @include        *youtube.com/*
 // @version        1.0
 // @run-at         document-end
+// @updateURL   https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
+// @downloadURL https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @grant          GM_getValue
 // @grant          GM_setValue
 // @noframes
