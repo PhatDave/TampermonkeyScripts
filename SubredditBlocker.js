@@ -11,7 +11,7 @@
 // @noframes
 // ==/UserScript==
 
-let persistenceKey = "blockedReddits"a
+let persistenceKey = "blockedReddits"
 // GM_setValue(persistenceKey, JSON.stringify("[]"))
 let blocked = JSON.parse(await GM_getValue(persistenceKey, JSON.stringify("[]")));
 if (blocked.constructor === "".constructor) {
@@ -87,6 +87,7 @@ function htmlToElement(html) {
 processAllElements();
 
 let runCount = 0;
+
 function addSidebarIfNotExist() {
 	if (!document.querySelector('div.subredditList')) {
 		let sidebar = document.querySelector('div[data-testid="frontpage-sidebar"] > div:last-child > div:last-child');
