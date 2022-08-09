@@ -2,7 +2,7 @@
 // @name           Subreddit blocker
 // @author         Cyka
 // @include        *reddit.com/*
-// @version        1.4
+// @version        1.5
 // @run-at document-start
 // @updateURL   https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
 // @downloadURL https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SubredditBlocker.js
@@ -11,7 +11,7 @@
 // @noframes
 // ==/UserScript==
 
-let persistenceKey = "blockedReddits"a
+let persistenceKey = "blockedReddits"
 // GM_setValue(persistenceKey, JSON.stringify("[]"))
 let blocked = JSON.parse(await GM_getValue(persistenceKey, JSON.stringify("[]")));
 if (blocked.constructor === "".constructor) {
