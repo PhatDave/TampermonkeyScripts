@@ -2,8 +2,8 @@
 // @name            Repeat youtube video blocker
 // @author          Cyka
 // @match           https://www.youtube.com/
-// @version         1.10
-// @run-at          document-end
+// @version         1.11
+// @run-at          document-start
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @require         file://C:/Users/Dave/WebstormProjects/TampermonkeyScripts/YoutubeVideoBlocker.js
@@ -60,7 +60,7 @@ function processElements(elements) {
 		if (videoTitleElement === null || videoTitleElement === undefined) {
 			return null;
 		}
-		let videoTitle = videoTitleElement.innerText;
+		let videoTitle = videoTitleElement.innerText.trim();
 		// console.log(`videoTitle = ${videoTitle}`);
 		if (!videoTitle in Object.keys(videos)) {
 			videos[videoTitle] = 0;
@@ -74,6 +74,8 @@ function processElements(elements) {
 		if (videos[videoTitle] > GM_config.get('BLOCK_THRESHOLD')) {
 			video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
 			console.log(`Removing wideo ${videoTitle}`);
+		} else {
+			console.log(`Keeping wideo ${videoTitle}`);
 		}
 	});
 	GM_setValue(persistenceKey, JSON.stringify(videos));
