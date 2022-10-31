@@ -1,20 +1,19 @@
 // ==UserScript==
 // @name         BSS auto login
-// @version      0.1
+// @version      0.2
 // @description  try to take over the world!
 // @author       You
-// @match        http://localhost:8080/bss/web/loginpage.*
+// @match        http://localhost:8080/bss/web/loginpage*
 // @grant        none
+// @run-at       document-end
 // ==/UserScript==
 
-(function() {
-    'use strict';
+let loginForm = document.querySelector("#username").parentElement.parentElement.parentElement;
 
-    document.on('dom:loaded', function() {
-        let loginForm = document.querySelector("#username").parentElement.parentElement;
+let loginEntry = loginForm.querySelector("#username");
+let passwordEntry = loginForm.querySelector("#password");
+let loginButton = loginForm.querySelector("input.button");
 
-        loginForm.querySelector("#username").value = "admin";
-        loginForm.querySelector("#password").value = "admin";
-        loginForm.querySelector("input.button").click();
-    });
-})();
+loginEntry.value = "admin";
+passwordEntry.value = "admin";
+loginButton.click();
