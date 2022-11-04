@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.3
+// @version         0.4
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -35,9 +35,16 @@ const defaultInfo = {
 		password: "admin"
 	},
 	MPAS: {
-
+		urlRegex: /http:\/\/.*\/mpas\/web\/login.*/,
+		loginForm: ".form-horizontal > fieldset",
+		loginEntry: "div:nth-child(2) > div > input",
+		passwordEntry: "div:nth-child(3) > div > input",
+		loginButton: "div:nth-child(5) > div > button",
+		login: "root",
+		password: "mpas"
 	}
 }
+
 let info = GM_getValue("loginInfo", defaultInfo);
 GM_setValue("loginInfo", info);
 
