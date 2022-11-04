@@ -8,7 +8,7 @@
 // @run-at       document-end
 // ==/UserScript==
 
-let loginForm = document.querySelector(".form-body");
+let loginForm = document.querySelector("#login-form");
 
 let loginEntry = loginForm.querySelector("#login-form-username");
 let passwordEntry = loginForm.querySelector("#login-form-password");
