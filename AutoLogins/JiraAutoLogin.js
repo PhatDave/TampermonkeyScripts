@@ -6,6 +6,8 @@
 // @match        http://support.inovatrend.com/jira/login.jsp*
 // @grant        none
 // @run-at       document-end
+// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/JiraAutoLogin.js
+// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/JiraAutoLogin.js
 // ==/UserScript==
 
 let loginForm = document.querySelector("#login-form");

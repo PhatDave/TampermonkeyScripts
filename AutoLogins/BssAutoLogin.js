@@ -6,6 +6,8 @@
 // @match        http://localhost:8080/bss/web/loginpage*
 // @grant        none
 // @run-at       document-end
+// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/BssAutoLogin.js
+// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/BssAutoLogin.js
 // ==/UserScript==
 
 let loginForm = document.querySelector("#username").parentElement.parentElement.parentElement;

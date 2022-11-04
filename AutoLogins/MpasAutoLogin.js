@@ -6,6 +6,8 @@
 // @match        http://localhost:8080/mpas/web/login*
 // @grant        none
 // @run-at       document-end
+// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/MpasAutoLogin.js
+// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/MpasAutoLogin.js
 // ==/UserScript==
 
 let loginForm = document.querySelector(".form-horizontal > fieldset");
