@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.4
+// @version         0.5
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -26,22 +26,13 @@
 
 const defaultInfo = {
 	BSS: {
-		urlRegex: /http:\/\/.*\/bss\/web\/loginpage.*/,
+		urlRegex: "http://.*/bss/web/loginpage.*",
 		loginForm: "#form",
 		loginEntry: "#username",
 		passwordEntry: "#password",
 		loginButton: "input.button",
 		login: "admin",
 		password: "admin"
-	},
-	MPAS: {
-		urlRegex: /http:\/\/.*\/mpas\/web\/login.*/,
-		loginForm: ".form-horizontal > fieldset",
-		loginEntry: "div:nth-child(2) > div > input",
-		passwordEntry: "div:nth-child(3) > div > input",
-		loginButton: "div:nth-child(5) > div > button",
-		login: "root",
-		password: "mpas"
 	}
 }
 
@@ -49,11 +40,16 @@ let info = GM_getValue("loginInfo", defaultInfo);
 GM_setValue("loginInfo", info);
 
 Object.keys(info).forEach((key) => {
-	let urlRe = info[key].urlRegex;
+	let urlRe = parseToRegex(info[key].urlRegex);
 	if (matchUrl(window.location.href, urlRe)) {
 		doLogin(info[key]);
 	}
 });
+
+function parseToRegex(urlRe) {
+	let regex = urlRe.replace("/", "\/");
+	return new RegExp(regex);
+}
 
 function matchUrl(url, urlRegex) {
 	let regex = new RegExp(urlRegex);
