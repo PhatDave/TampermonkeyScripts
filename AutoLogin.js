@@ -4,8 +4,8 @@
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
-// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/AutoLogin.js
-// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogins/AutoLogin.js
+// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogin.js
+// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogin.js
 // @grant           GM_getValue
 // @grant           GM_setValue
 // ==/UserScript==
