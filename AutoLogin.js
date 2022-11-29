@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.6
+// @version         0.7
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -60,9 +60,25 @@ function doLogin(loginInfo) {
 	let loginForm = document.querySelector(loginInfo.loginForm);
 
 	if (!!loginForm) {
-		let loginEntry = loginForm.querySelector(loginInfo.loginEntry);
-		let passwordEntry = loginForm.querySelector(loginInfo.passwordEntry);
-		let loginButton = loginForm.querySelector(loginInfo.loginButton);
+		let loginEntry;
+		let passwordEntry;
+		let loginButton;
+
+		try {
+			loginEntry = loginForm.querySelector(loginInfo.loginEntry);
+		} catch (DOMException) {
+			console.log("Error finding login entry");
+		}
+		try {
+			passwordEntry = loginForm.querySelector(loginInfo.passwordEntry);
+		} catch (DOMException) {
+			console.log("Error finding password entry");
+		}
+		try {
+			loginButton = loginForm.querySelector(loginInfo.loginButton);
+		} catch (DOMException) {
+			console.log("Error finding login button");
+		}
 
 		if (!!loginEntry) {
 			loginEntry.value = loginInfo.login;
