@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.5
+// @version         0.6
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -59,11 +59,19 @@ function matchUrl(url, urlRegex) {
 function doLogin(loginInfo) {
 	let loginForm = document.querySelector(loginInfo.loginForm);
 
-	let loginEntry = loginForm.querySelector(loginInfo.loginEntry);
-	let passwordEntry = loginForm.querySelector(loginInfo.passwordEntry);
-	let loginButton = loginForm.querySelector(loginInfo.loginButton);
+	if (!!loginForm) {
+		let loginEntry = loginForm.querySelector(loginInfo.loginEntry);
+		let passwordEntry = loginForm.querySelector(loginInfo.passwordEntry);
+		let loginButton = loginForm.querySelector(loginInfo.loginButton);
 
-	loginEntry.value = loginInfo.login;
-	passwordEntry.value = loginInfo.password;
-	loginButton.click();
+		if (!!loginEntry) {
+			loginEntry.value = loginInfo.login;
+		}
+		if (!!passwordEntry) {
+			passwordEntry.value = loginInfo.password;
+		}
+		if (!!loginButton) {
+			loginButton.click();
+		}
+	}
 }
