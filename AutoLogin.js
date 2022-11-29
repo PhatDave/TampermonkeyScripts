@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.7
+// @version         0.8
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -81,10 +81,10 @@ function doLogin(loginInfo) {
 		}
 
 		if (!!loginEntry) {
-			loginEntry.value = loginInfo.login;
+			loginEntry.value = atob(loginInfo.login);
 		}
 		if (!!passwordEntry) {
-			passwordEntry.value = loginInfo.password;
+			passwordEntry.value = atob(loginInfo.password);
 		}
 		if (!!loginButton) {
 			loginButton.click();
