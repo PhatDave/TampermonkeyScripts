@@ -1,0 +1,40 @@
+{
+    "loginInfo": {
+        "BSS": {
+            "urlRegex": "http://.*/bss/web/loginpage.*",
+            "loginForm": "#form",
+            "loginEntry": "#username",
+            "passwordEntry": "#password",
+            "loginButton": "input.button",
+            "login": "admin",
+            "password": "admin"
+        },
+        "MPAS": {
+            "urlRegex": "http://.*/mpas/web/login.*",
+            "loginForm": ".form-horizontal > fieldset",
+            "loginEntry": "div:nth-child(2) > div > input",
+            "passwordEntry": "div:nth-child(3) > div > input",
+            "loginButton": "div:nth-child(5) > div > button",
+            "login": "root",
+            "password": "mpas"
+        },
+        "Jira": {
+            "urlRegex": "http://support.inovatrend.com/jira/login.jsp.*",
+            "loginForm": "#login-form",
+            "loginEntry": "#login-form-username",
+            "passwordEntry": "#login-form-password",
+            "loginButton": "#login-form-submit",
+            "login": "david.majdandzic",
+            "password": "-[dGFT6e65[@D4XPdJs_q<3(T4LM9K"
+        },
+        "BSS4MPAS": {
+            "urlRegex": "http://.*/web/login",
+            "loginForm": ".form-horizontal",
+            "loginEntry": "#input-username",
+            "passwordEntry": "#input-password",
+            "loginButton": ".btn-magenta",
+            "login": "admin",
+            "password": "admin"
+        }
+    }
+}
