@@ -1,11 +1,11 @@
 // ==UserScript==
 // @name            BSS Poker
-// @version         0.5
+// @version         0.6
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
-// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogin.js
-// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/AutoLogin.js
+// @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/bssSmsPricer.js
+// @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/bssSmsPricer.js
 // @grant           GM_getValue
 // @grant           GM_setValue
 // ==/UserScript==
