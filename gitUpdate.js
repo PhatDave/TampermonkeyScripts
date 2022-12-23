@@ -76,7 +76,7 @@ class Logger {
 		Error.prepareStackTrace = originalPrepareStackTrace;
 		const relativeFileName = path.relative(process.cwd(), callee.getFileName());
 		// const prefix = `${relativeFileName}:${callee.getLineNumber()}:`;
-		const prefix = `${callee.getLineNumber()}:`;
+		const prefix = `${callee.getLineNumber()}:`.padEnd(5);
 		if (typeof firstArgument === 'string') {
 			originalLoggingMethod(prefix + ' ' + firstArgument, ...otherArguments);
 		} else {
