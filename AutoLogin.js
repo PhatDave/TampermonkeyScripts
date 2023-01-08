@@ -109,7 +109,9 @@ Object.keys(info).forEach((key) => {
 });
 
 function parseToRegex(urlRe) {
+	urlRe = atob(urlRe);
 	let regex = urlRe.replace("/", "\/");
+	logger.log1(`Parsing ${regex}`);
 	return new RegExp(regex);
 }
 
