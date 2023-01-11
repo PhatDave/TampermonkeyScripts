@@ -2,11 +2,10 @@
 // @name            Repeat youtube video blocker
 // @author          Cyka
 // @match           https://www.youtube.com/
-// @version         1.17
-// @run-at          document-end
+// @version         1.18
+// @run-at          document-idle
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
-// @require         file://C:/Users/Dave/WebstormProjects/TampermonkeyScripts/YoutubeVideoBlocker.js
 // @require         https://openuserjs.org/src/libs/sizzle/GM_config.js
 // @grant           GM_getValue
 // @grant           GM_setValue
@@ -61,7 +60,7 @@ class Logger {
 	log6 = this.log.bind(this, 6);
 }
 
-let logger = new Logger("TamperMonkey-AutoLogin");
+let logger = new Logger("TamperMonkey-YoutubeVideoBlocker");
 
 GM_config.init({
 	               id: 'configyes',
@@ -89,11 +88,14 @@ if (videos.constructor === "".constructor) {
 let timer = -1
 
 function processUnprocessedElements() {
+	// Not great, not terrible...
+	if (timer !== -1) {
+		clearTimeout(timer);
+		timer = -1;
+	}
 	if (timer === -1) {
 		logger.log1(`Starting timer for processing elements`);
-		timer = setTimeout(processElements, 350, document.querySelectorAll("a.ytd-thumbnail:not([data-processed])"));
-	} else {
-		logger.log1(`Timer for processing elements already running`);
+		timer = setTimeout(processElements, 200, document.querySelectorAll("a.ytd-thumbnail:not([data-processed])"));
 	}
 }
 
@@ -130,7 +132,17 @@ function processElements(elements) {
 		videoTitleElement.innerText = `(${videos[videoTitle]}) ${videoTitle}`;
 		if (videos[videoTitle] > GM_config.get('BLOCK_THRESHOLD')) {
 			logger.log1(`Video title has been seen ${videos[videoTitle]} times (over ${GM_config.get('BLOCK_THRESHOLD')} threshold), blocking it`);
-			video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+			console.log(video);
+			if (window.location.href == "https://www.youtube.com/") {
+				logger.log1(`Window location recognized as youtube homepage, blocking video`);
+				video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+			} else if (window.location.href == "https://www.youtube.com/feed/subscriptions") {
+				logger.log1(`Window location recognized as youtube subscriptions page, skipping`);
+				break;
+			} else if (/https:\/\/www\.youtube\.com\/.+/.test(window.location.href)) {
+				logger.log1(`Window location recognized as youtube video page, blocking video`);
+				video.parentElement.parentElement.parentElement.style.display = "none";
+			}
 		}
 	}
 	logger.log1(`Finished processing elements`);
@@ -140,34 +152,12 @@ function processElements(elements) {
 
 processAllElements();
 
-// Block future elements that are not yet rendered
 new MutationObserver((mutations) => {
-	mutations.forEach(mutation => {
-		console.log(mutation);
-		for (const newElement of mutation.addedNodes) {
-			processUnprocessedElements();
-		}
-	});
+	mutations = mutations.filter(mutation => mutation.addedNodes.length > 0);
+	if (mutations.length > 0) {
+		processUnprocessedElements();
+	}
 }).observe(document.documentElement, {
 	childList: true,
 	subtree: true
 });
-
-function observeUrlChange() {
-	let href = document.location.href;
-	const body = document.querySelector("body");
-	const observer = new MutationObserver(mutations => {
-		mutations.forEach(() => {
-			if (href !== document.location.href) {
-				console.log(`Href changed! old -> ${href}, new -> ${document.location.href}`);
-				href = document.location.href;
-			}
-		});
-	});
-	observer.observe(body, {
-		childList: true,
-		subtree: true
-	});
-}
-
-// window.onload = observeUrlChange;
