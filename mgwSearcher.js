@@ -2,7 +2,7 @@
 // @name            MGW Searcher
 // @author          Cyka
 // @include         *search-requests/messages*
-// @version         1.1
+// @version         1.2
 // @run-at          document-idle
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/mgwSearcher.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/mgwSearcher.js
@@ -43,7 +43,15 @@ function waitForElement(selector) {
 	});
 }
 
-waitForElement(".range-button > button:nth-child(1)").then(() => {
-	let tenMinButton = document.querySelector(".range-button > button:nth-child(1)");
-	tenMinButton.click();
-});
+let timeInput = await waitForElement("input#rangePicker");
+let tenMinButton = await waitForElement(".range-button > button:nth-child(1)");
+let searchButton = await waitForElement(".pull-right > button:nth-child(1)");
+
+// let originalMethod = searchButton.onclick;
+searchButton.onclick = function(event) {
+	let time = timeInput.value;
+	if (time === "") {
+		tenMinButton.click();
+	}
+	// originalMethod(event);
+}

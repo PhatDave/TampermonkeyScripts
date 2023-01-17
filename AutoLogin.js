@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.9
+// @version         0.10
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -91,7 +91,7 @@ let logger = new Logger("TamperMonkey-AutoLogin");
 
 Object.keys(info).forEach((key) => {
 	let urlRe = parseToRegex(info[key].urlRegex);
-	logger.log1(`Checking for match for ${key} on ${window.location.href}`);
+	logger.log1(`Checking for match for ${key} (using ${atob(info[key].urlRegex)}) on ${window.location.href}`);
 	if (matchUrl(window.location.href, urlRe)) {
 		let loginInfo = info[key];
 		logger.log1(`Matched ${key} on ${window.location.href}`);
