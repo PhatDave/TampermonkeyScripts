@@ -2,7 +2,7 @@
 // @name            Steam App To RSS
 // @author          Cyka
 // @match           *store.steampowered.com/app/*/*$
-// @version         1.13
+// @version         1.14
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SteamAppToRSS.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SteamAppToRSS.js
@@ -37,7 +37,7 @@ function createElementFromHTML(htmlString) {
 
 const rssFeedUrlTemplate = "https://store.steampowered.com/feeds/news/app/{appId}/";
 
-let appId = window.location.href.split("/").at(-1);
+let appId = /https:\/\/store\.steampowered\.com\/app\/(\d+)/.exec(window.location.href)[1];
 let rssFeedUrl = rssFeedUrlTemplate.replace("{appId}", appId);
 
 waitForElm(".apphub_HeaderStandardTop").then(elm => {
