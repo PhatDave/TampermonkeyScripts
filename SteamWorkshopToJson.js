@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name            Steam App To RSS
+// @name            Steam Workshop To Json
 // @author          Cyka
 // @match           *steamcommunity.com/id/top_kek_id/myworkshopfiles*
-// @version         1.0
+// @version         1.1
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SteamWorkshopToJson.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/SteamWorkshopToJson.js

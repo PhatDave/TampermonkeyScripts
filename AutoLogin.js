@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Auto login
-// @version         0.10
+// @version         0.11
 // @author          Cyka
 // @match           *://*/*
 // @run-at          document-end
@@ -120,11 +120,31 @@ function matchUrl(url, urlRegex) {
 	return url.match(regex);
 }
 
-function doLogin(loginInfo) {
-	logger.log1(`Looking for login form via ${loginInfo.loginForm}`);
-	let loginForm = document.querySelector(loginInfo.loginForm);
+function waitForElement(element, selector) {
+	return new Promise(resolve => {
+		if (element.querySelector(selector)) {
+			return resolve(element.querySelector(selector));
+		}
 
-	if (!!loginForm) {
+		const observer = new MutationObserver(mutations => {
+			if (element.querySelector(selector)) {
+				resolve(element.querySelector(selector));
+				observer.disconnect();
+			}
+		});
+
+		observer.observe(element, {
+			childList: true,
+			subtree: true
+		});
+	});
+}
+
+async function doLogin(loginInfo) {
+	logger.log1(`Looking for login form via ${loginInfo.loginForm}`);
+	let loginForm = await waitForElement(document, loginInfo.loginForm);
+
+	if (loginForm) {
 		logger.log1(`Found login form`);
 		let loginEntry;
 		let passwordEntry;
@@ -132,21 +152,21 @@ function doLogin(loginInfo) {
 
 		try {
 			logger.log1(`Looking for login entry via ${loginInfo.loginEntry}`);
-			loginEntry = loginForm.querySelector(loginInfo.loginEntry);
+			loginEntry = await waitForElement(loginForm, loginInfo.loginEntry);
 			logger.log1(`Found login entry: ${loginEntry}`);
 		} catch (DOMException) {
 			logger.log1("Error finding login entry");
 		}
 		try {
 			logger.log1(`Looking for password entry via ${loginInfo.passwordEntry}`);
-			passwordEntry = loginForm.querySelector(loginInfo.passwordEntry);
+			passwordEntry = await waitForElement(loginForm, loginInfo.passwordEntry);
 			logger.log1(`Found password entry: ${passwordEntry}`);
 		} catch (DOMException) {
 			logger.log1("Error finding password entry");
 		}
 		try {
 			logger.log1(`Looking for login button via ${loginInfo.loginButton}`);
-			loginButton = loginForm.querySelector(loginInfo.loginButton);
+			loginButton = await waitForElement(loginForm, loginInfo.loginButton);
 			logger.log1(`Found login button: ${loginButton}`);
 		} catch (DOMException) {
 			logger.log1("Error finding login button");
