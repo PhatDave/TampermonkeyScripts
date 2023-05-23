@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Freakz CSRF Scraper
-// @version         0.3
+// @version         0.4
 // @author          Dave
 // @match           https://felsong.gg/*
 // @run-at          document-end
@@ -19,7 +19,8 @@ let options = {
 
 function insertCsrf(token) {
     options.body = JSON.stringify({token});
-    fetch('https://indecisive-data.app.jet-black.xyz/api/collections/freakz_csrf_token/records', options);
+    fetch('https://indecisive-data.app.jet-black.xyz/api/collections/freakz_csrf_token/records', options)
+        .catch(err => console.error('CSRF already exists'));
 }
 
 let cookie = document.cookie;
