@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Pocketbase Linkifier
-// @version         0.3
+// @version         0.4
 // @author          Dave
 // @match           *://*/*
 // @run-at          document-end
@@ -47,8 +47,11 @@ function doPatchUrls() {
     urlElements.forEach(element => {
         console.log(element.innerText);
         element.innerText = `${rootUrl}${element.innerText}`;
-        element.addEventListener('click', element => {
-            let text = element.innerText.trim();
+        element.addEventListener('click', event => {
+            console.log("IS CLICK");
+            console.log(event);
+            let text = event.target.innerText.trim();
+            console.log(text);
             GM_setClipboard(text);
         })
     });
