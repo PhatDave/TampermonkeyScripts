@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name            Pocketbase Linkifier
-// @version         0.2
+// @version         0.3
 // @author          Dave
 // @match           *://*/*
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/PocketbaseLinkifier.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/PocketbaseLinkifier.js
+// @grant           GM_setClipboard
 // ==/UserScript==
 
 console.log(window.location.href);
@@ -46,6 +47,10 @@ function doPatchUrls() {
     urlElements.forEach(element => {
         console.log(element.innerText);
         element.innerText = `${rootUrl}${element.innerText}`;
+        element.addEventListener('click', element => {
+            let text = element.innerText.trim();
+            GM_setClipboard(text);
+        })
     });
 }
 
