@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Freakz CSRF Scraper
-// @version         0.4
+// @version         0.5
 // @author          Dave
 // @match           https://felsong.gg/*
 // @run-at          document-end
@@ -24,7 +24,8 @@ function insertCsrf(token) {
 }
 
 let cookie = document.cookie;
-let csrf = cookie.split(";")[0];
+let csrf = cookie.split(";");
+csrf = csrf.find(element => element.includes("csrf_cookie_name"));
 if (csrf) {
     let token = csrf.split("=")[1];
     insertCsrf(token);
