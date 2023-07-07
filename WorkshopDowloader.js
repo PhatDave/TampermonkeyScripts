@@ -5,7 +5,7 @@
 // @run-at          document-end
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/WorkshopDownloader.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/WorkshopDownloader.js
-// @version         0.2
+// @version         0.3
 // ==/UserScript==
 
 const userNameStorageKey = "cyka-steam-workshop-userName";
@@ -74,16 +74,21 @@ function getOrCreateUser() {
 function getUserInfo() {
 	waitForElm(document, "#HeaderUserInfoName").then(elm => {
 		let userName = elm.innerText;
-		localStorage.setItem(userNameStorageKey, userName);
+		localStorage.setItem(userNameStorageKey, userName.trim());
 		getOrCreateUser();
 	});
 }
 
 function postWorkshopItem(url) {
+	const itemId = url.split("=")[1].trim();
+	const appId = Number(/appid=(\d+)/.exec(window.location.href)[1].trim());
+
 	const data = {
 		user: localStorage.getItem(userIDStorageKey),
 		url,
-		deleted: false
+		deleted: false,
+		itemId,
+		appId
 	};
 
 	return fetch(`${pocketbaseUrl}/workshop_link/records`, {

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name            Pocketbase Linkifier
-// @version         0.4
+// @version         0.5
 // @author          Dave
 // @match           *://*/*
 // @run-at          document-end
@@ -41,11 +41,12 @@ function doPatchUrls() {
         element.addEventListener('click', doPatchUrls);
     });
 
-    let urlElements = document.querySelectorAll("div.alert > div.content > p");
+    let urlElements = document.querySelectorAll("div.alert > div.content > p:not([processed])");
 
     console.log(urlElements);
     urlElements.forEach(element => {
         console.log(element.innerText);
+        element.setAttribute("processed", "true");
         element.innerText = `${rootUrl}${element.innerText}`;
         element.addEventListener('click', event => {
             console.log("IS CLICK");
@@ -57,9 +58,7 @@ function doPatchUrls() {
     });
 }
 
-console.log(window.location.href);
 if (window.location.href.includes("pocketbase")) {
-    waitForElement(document, "div.btns-group button.btn.btn-outline").then(elm => {
-        elm.addEventListener("click", doPatchUrls);
-    });
+    doPatchUrls();
+    setInterval(doPatchUrls, 500);
 }
