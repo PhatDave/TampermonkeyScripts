@@ -2,7 +2,7 @@
 // @name            Repeat youtube video blocker
 // @author          Cyka
 // @match           https://www.youtube.com/
-// @version         1.18
+// @version         1.19
 // @run-at          document-idle
 // @updateURL       https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
 // @downloadURL     https://raw.githubusercontent.com/PhatDave/TampermonkeyScripts/master/YoutubeVideoBlocker.js
@@ -45,10 +45,14 @@ class Logger {
 		let seconds = this.leftPad(date.getSeconds(), 2, 0);
 		let milliseconds = this.leftPad(date.getMilliseconds(), 3, 0);
 
-		let datePrefix = `[${day}/${month}/${year}-${hours}:${minutes}:${seconds}:${milliseconds}]`
+		let datePrefix = `[${day}/${month}/${year}-${hours}:${minutes}:${seconds}:${milliseconds}]`;
 
 		// let out = `${datePrefix} [${this.clazz}] (${logLevel}) ${data}`;
-		let out = datePrefix.padEnd(30, ' ') + `[${this.clazz}]`.padEnd(28, ' ') + `(${logLevel})`.padEnd(8, ' ') + data;
+		let out =
+			datePrefix.padEnd(30, " ") +
+			`[${this.clazz}]`.padEnd(28, " ") +
+			`(${logLevel})`.padEnd(8, " ") +
+			data;
 		console.log(out);
 	}
 
@@ -63,29 +67,31 @@ class Logger {
 let logger = new Logger("TamperMonkey-YoutubeVideoBlocker");
 
 GM_config.init({
-	               id: 'configyes',
-	               title: GM_info.script.name + ' Settings',
-	               fields: {
-		               BLOCK_THRESHOLD: {
-			               label: 'Block threshold',
-			               type: 'number',
-			               min: 0,
-			               max: 100,
-			               default: 5,
-			               title: 'How many times must a video appear for it to be blocked'
-		               }
-	               }
-               });
-GM_registerMenuCommand('Settings', () => {
-	GM_config.open()
+	id: "configyes",
+	title: GM_info.script.name + " Settings",
+	fields: {
+		BLOCK_THRESHOLD: {
+			label: "Block threshold",
+			type: "number",
+			min: 0,
+			max: 100,
+			default: 5,
+			title: "How many times must a video appear for it to be blocked",
+		},
+	},
+});
+GM_registerMenuCommand("Settings", () => {
+	GM_config.open();
 });
 
-let persistenceKey = "seenVideos"
-let videos = JSON.parse(await GM_getValue(persistenceKey, JSON.stringify("{}")));
+let persistenceKey = "seenVideos";
+let videos = JSON.parse(
+	await GM_getValue(persistenceKey, JSON.stringify("{}"))
+);
 if (videos.constructor === "".constructor) {
 	videos = JSON.parse(videos);
 }
-let timer = -1
+let timer = -1;
 
 function processUnprocessedElements() {
 	// Not great, not terrible...
@@ -95,7 +101,11 @@ function processUnprocessedElements() {
 	}
 	if (timer === -1) {
 		logger.log1(`Starting timer for processing elements`);
-		timer = setTimeout(processElements, 200, document.querySelectorAll("a.ytd-thumbnail:not([data-processed])"));
+		timer = setTimeout(
+			processElements,
+			200,
+			document.querySelectorAll("a.ytd-thumbnail:not([data-processed])")
+		);
 	}
 }
 
@@ -106,42 +116,70 @@ function processAllElements() {
 
 function processElements(elements) {
 	logger.log1(`Found ${elements.length} elements to process`);
-	for (let i = 0; i < elements.length; i++) {
-		let video = elements[i];
+	for (const element of elements) {
+		const video = element;
 		logger.log1(`Processing element ${video}`);
 		video.setAttribute("data-processed", "true");
-		let videoTitleElement = video.parentElement.parentElement.querySelector("#video-title");
+		const videoTitleElement =
+			video.parentElement.parentElement.parentElement.querySelector("#video-title");
 		if (videoTitleElement === null || videoTitleElement === undefined) {
-			logger.log1(`Could not find video title element for video ${video}`);
+			logger.log1(
+				`Could not find video title element for video ${video}`
+			);
 			return null;
 		}
-		let videoTitle = videoTitleElement.innerText.trim();
+		const videoTitle = videoTitleElement.innerText.trim();
 		logger.log1(`Video title: ${videoTitle}`);
-		if (!videoTitle in Object.keys(videos)) {
+		if (Object.keys(videos).indexOf(videoTitle) == -1) {
 			logger.log1(`Video title not in seen videos, adding it`);
 			videos[videoTitle] = 0;
 		}
 		if (isNaN(videos[videoTitle])) {
-			logger.log1(`Video title in seen videos, but value is not a number, resetting it`);
+			logger.log1(
+				`Video title in seen videos, but value is not a number, resetting it`
+			);
 			videos[videoTitle] = 0;
 		}
 		videos[videoTitle]++;
-		logger.log1(`Video title in seen videos, value is ${videos[videoTitle]}`);
+		logger.log1(
+			`Video title in seen videos, value is ${videos[videoTitle]}`
+		);
 
-		logger.log1(`Setting video title to (${videos[videoTitle]}) ${videoTitle}`);
+		logger.log1(
+			`Setting video title to (${videos[videoTitle]}) ${videoTitle}`
+		);
 		videoTitleElement.innerText = `(${videos[videoTitle]}) ${videoTitle}`;
-		if (videos[videoTitle] > GM_config.get('BLOCK_THRESHOLD')) {
-			logger.log1(`Video title has been seen ${videos[videoTitle]} times (over ${GM_config.get('BLOCK_THRESHOLD')} threshold), blocking it`);
+		if (videos[videoTitle] > GM_config.get("BLOCK_THRESHOLD")) {
+			logger.log1(
+				`Video title has been seen ${
+					videos[videoTitle]
+				} times (over ${GM_config.get(
+					"BLOCK_THRESHOLD"
+				)} threshold), blocking it`
+			);
 			console.log(video);
 			if (window.location.href == "https://www.youtube.com/") {
-				logger.log1(`Window location recognized as youtube homepage, blocking video`);
-				video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
-			} else if (window.location.href == "https://www.youtube.com/feed/subscriptions") {
-				logger.log1(`Window location recognized as youtube subscriptions page, skipping`);
+				logger.log1(
+					`Window location recognized as youtube homepage, blocking video`
+				);
+				video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display =
+					"none";
+			} else if (
+				window.location.href ==
+				"https://www.youtube.com/feed/subscriptions"
+			) {
+				logger.log1(
+					`Window location recognized as youtube subscriptions page, skipping`
+				);
 				break;
-			} else if (/https:\/\/www\.youtube\.com\/.+/.test(window.location.href)) {
-				logger.log1(`Window location recognized as youtube video page, blocking video`);
-				video.parentElement.parentElement.parentElement.style.display = "none";
+			} else if (
+				/https:\/\/www\.youtube\.com\/.+/.test(window.location.href)
+			) {
+				logger.log1(
+					`Window location recognized as youtube video page, blocking video`
+				);
+				video.parentElement.parentElement.parentElement.style.display =
+					"none";
 			}
 		}
 	}
@@ -153,11 +191,11 @@ function processElements(elements) {
 processAllElements();
 
 new MutationObserver((mutations) => {
-	mutations = mutations.filter(mutation => mutation.addedNodes.length > 0);
+	mutations = mutations.filter((mutation) => mutation.addedNodes.length > 0);
 	if (mutations.length > 0) {
 		processUnprocessedElements();
 	}
 }).observe(document.documentElement, {
 	childList: true,
-	subtree: true
+	subtree: true,
 });
