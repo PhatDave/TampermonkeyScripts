@@ -16,12 +16,12 @@ const pocketbaseUrl = `https://pocketbase-workshop-downloader.site.quack-lab.dev
 const isQueueAll = localStorage.getItem(queueAllStorageKey) === "true";
 
 function waitForElm(element, selector) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		if (element.querySelector(selector)) {
 			return resolve(element.querySelector(selector));
 		}
 
-		const observer = new MutationObserver(mutations => {
+		const observer = new MutationObserver((mutations) => {
 			if (element.querySelector(selector)) {
 				resolve(element.querySelector(selector));
 				observer.disconnect();
@@ -30,36 +30,38 @@ function waitForElm(element, selector) {
 
 		observer.observe(document.body, {
 			childList: true,
-			subtree: true
+			subtree: true,
 		});
 	});
-
 }
 
 function createElementFromHTML(htmlString) {
-	let div = document.createElement('div');
+	let div = document.createElement("div");
 	div.innerHTML = htmlString.trim();
 	return div.firstChild;
-
 }
 
 function getOrCreateUser() {
-	return new Promise(resolve => {
-		fetch(`${pocketbaseUrl}/user/records?filter=(name='${localStorage.getItem(userNameStorageKey)}')`)
-			.then(res => res.json())
-			.then(json => {
+	return new Promise((resolve) => {
+		fetch(
+			`${pocketbaseUrl}/user/records?filter=(name='${localStorage.getItem(
+				userNameStorageKey
+			)}')`
+		)
+			.then((res) => res.json())
+			.then((json) => {
 				if (json.totalItems === 0) {
 					fetch(`${pocketbaseUrl}/user/records`, {
 						method: "POST",
 						headers: {
-							"Content-Type": "application/json"
+							"Content-Type": "application/json",
 						},
 						body: JSON.stringify({
-							name: localStorage.getItem(userNameStorageKey)
-						})
+							name: localStorage.getItem(userNameStorageKey),
+						}),
 					})
-						.then(res => res.json())
-						.then(json => {
+						.then((res) => res.json())
+						.then((json) => {
 							localStorage.setItem(userIDStorageKey, json.id);
 							resolve();
 						});
@@ -72,7 +74,7 @@ function getOrCreateUser() {
 }
 
 function getUserInfo() {
-	waitForElm(document, "#HeaderUserInfoName").then(elm => {
+	waitForElm(document, "#HeaderUserInfoName").then((elm) => {
 		let userName = elm.innerText;
 		localStorage.setItem(userNameStorageKey, userName.trim());
 		getOrCreateUser();
@@ -88,22 +90,22 @@ function postWorkshopItem(url) {
 		url,
 		deleted: false,
 		itemId,
-		appId
+		appId,
 	};
 
 	return fetch(`${pocketbaseUrl}/workshop_link/records`, {
 		method: "POST",
 		headers: {
-			"Content-Type": "application/json"
+			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(data)
-	}).then(res => res.json());
+		body: JSON.stringify(data),
+	}).then((res) => res.json());
 }
 
 function enqueueAll() {
 	let promises = [];
 	let elements = document.querySelectorAll(".subscribeCtn");
-	elements.forEach(elm => {
+	elements.forEach((elm) => {
 		let url = elm.parentElement.parentElement.children[1].children[0].href;
 		console.log(`Pushing ${url} to queue`);
 		promises.push(postWorkshopItem(url));
@@ -138,23 +140,29 @@ if (isQueueAll) {
 	});
 } else {
 	if (window.location.href.includes("myworkshopfiles")) {
-		waitForElm(document, ".subscribeCtn").then(elm => {
-			let elements = document.querySelectorAll(".subscribeCtn")
-			elements.forEach(elm => {
-				elm.style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 20vw";
-				const node = createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
+		waitForElm(document, ".subscribeCtn").then((elm) => {
+			let elements = document.querySelectorAll(".subscribeCtn");
+			elements.forEach((elm) => {
+				elm.style =
+					"display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 20vw";
+				const node =
+					createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
                                                           style="text-align: center">ENQUEUE</span>`);
 				elm.prepend(node);
 				node.addEventListener("click", () => {
-					let url = elm.parentElement.parentElement.children[1].children[0].href;
+					let url =
+						elm.parentElement.parentElement.children[1].children[0]
+							.href;
 					postWorkshopItem(url);
 				});
 			});
 		});
 
-		waitForElm(document, ".workshopBrowsePagingWithBG").then(elm => {
-			elm.style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center;";
-			const node = createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
+		waitForElm(document, ".workshopBrowsePagingWithBG").then((elm) => {
+			elm.style =
+				"display: flex; flex-direction: row; justify-content: space-between; align-items: center;";
+			const node =
+				createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
                                                       style="width: 15vw; text-align: center">ENQUEUE ALL</span>`);
 			elm.prepend(node);
 			node.addEventListener("click", () => {
