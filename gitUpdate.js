@@ -48,10 +48,7 @@ class Logger {
 
 		// let out = `${datePrefix} [${this.clazz}] (${logLevel}) ${data}`;
 		let out =
-			datePrefix.padEnd(30, " ") +
-			`[${this.clazz}]`.padEnd(28, " ") +
-			`(${logLevel})`.padEnd(8, " ") +
-			data;
+			datePrefix.padEnd(30, " ") + `[${this.clazz}]`.padEnd(28, " ") + `(${logLevel})`.padEnd(8, " ") + data;
 		if (args[0] <= this.logLevel || 6) {
 			console.log(out);
 		}
@@ -75,17 +72,11 @@ class Logger {
 		Error.prepareStackTrace = (_, stack) => stack;
 		const callee = new Error().stack[2];
 		Error.prepareStackTrace = originalPrepareStackTrace;
-		const relativeFileName = path.relative(
-			process.cwd(),
-			callee.getFileName()
-		);
+		const relativeFileName = path.relative(process.cwd(), callee.getFileName());
 		// const prefix = `${relativeFileName}:${callee.getLineNumber()}:`;
 		const prefix = `${callee.getLineNumber()}:`.padEnd(5);
 		if (typeof firstArgument === "string") {
-			originalLoggingMethod(
-				prefix + " " + firstArgument,
-				...otherArguments
-			);
+			originalLoggingMethod(prefix + " " + firstArgument, ...otherArguments);
 		} else {
 			originalLoggingMethod(prefix, firstArgument, ...otherArguments);
 		}
@@ -108,16 +99,10 @@ simpleGit()
 						let spaces = regExpArray[1];
 						let majorVersion = regExpArray[2];
 						let minorVersion = regExpArray[3];
-						logger.log1(
-							`Found version ${majorVersion}.${minorVersion}`
-						);
+						logger.log1(`Found version ${majorVersion}.${minorVersion}`);
 						minorVersion++;
-						fileData[
-							i
-						] = `// @version${spaces}${majorVersion}.${minorVersion}`;
-						logger.log1(
-							`Updated version to ${majorVersion}.${minorVersion}`
-						);
+						fileData[i] = `// @version${spaces}${majorVersion}.${minorVersion}`;
+						logger.log1(`Updated version to ${majorVersion}.${minorVersion}`);
 					}
 				}
 				logger.log1(`Writing file ${file}`);

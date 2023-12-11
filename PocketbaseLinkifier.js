@@ -36,16 +36,12 @@ function doPatchUrls() {
 	let rootUrl = window.location.href.split("_")[0];
 	rootUrl = rootUrl.slice(0, -1);
 
-	document
-		.querySelectorAll("button.sidebar-item:not([processed])")
-		.forEach((element) => {
-			element.setAttribute("processed", "true");
-			element.addEventListener("click", doPatchUrls);
-		});
+	document.querySelectorAll("button.sidebar-item:not([processed])").forEach((element) => {
+		element.setAttribute("processed", "true");
+		element.addEventListener("click", doPatchUrls);
+	});
 
-	let urlElements = document.querySelectorAll(
-		"div.alert > div.content > p:not([processed])"
-	);
+	let urlElements = document.querySelectorAll("div.alert > div.content > p:not([processed])");
 
 	console.log(urlElements);
 	urlElements.forEach((element) => {

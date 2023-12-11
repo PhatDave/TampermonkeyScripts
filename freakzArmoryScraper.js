@@ -46,26 +46,21 @@ function getLatestIlvlEntry(character) {
 	});
 }
 
-fetch(
-	"https://indecisive-data.app.jet-black.xyz/api/collections/armory_character/records",
-	options
-)
+fetch("https://indecisive-data.app.jet-black.xyz/api/collections/armory_character/records", options)
 	.then((response) => response.json())
 	.then((response) => {
 		response = response.items;
 		response.forEach((record) => {
 			let shouldUpdate = true;
 			getLatestIlvlEntry(record).then((entry) => {
-				let lastUpdated = new Date((entry && entry.created) || 0);
+				let lastUpdated = new Date(entry?.created || 0);
 				let now = new Date();
 				let diff = now - lastUpdated;
 				let diffHours = Math.floor(diff / 1000 / 60 / 60);
 				if (diffHours < 1) {
 					shouldUpdate = false;
 				}
-				console.log(
-					record.name + " last updated " + diffHours + " hours ago"
-				);
+				console.log(record.name + " last updated " + diffHours + " hours ago");
 				console.log(`shouldUpdate = ${shouldUpdate}`);
 
 				if (shouldUpdate) {
@@ -82,8 +77,7 @@ fetch(
 								headers: { "Content-Type": "application/json" },
 							};
 							fetch(
-								"" +
-									"https://indecisive-data.app.jet-black.xyz/api/collections/armory_character_item/records",
+								"https://indecisive-data.app.jet-black.xyz/api/collections/armory_character_item/records",
 								postOptions
 							);
 						});

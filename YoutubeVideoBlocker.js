@@ -49,10 +49,7 @@ class Logger {
 
 		// let out = `${datePrefix} [${this.clazz}] (${logLevel}) ${data}`;
 		let out =
-			datePrefix.padEnd(30, " ") +
-			`[${this.clazz}]`.padEnd(28, " ") +
-			`(${logLevel})`.padEnd(8, " ") +
-			data;
+			datePrefix.padEnd(30, " ") + `[${this.clazz}]`.padEnd(28, " ") + `(${logLevel})`.padEnd(8, " ") + data;
 		console.log(out);
 	}
 
@@ -85,9 +82,7 @@ GM_registerMenuCommand("Settings", () => {
 });
 
 let persistenceKey = "seenVideos";
-let videos = JSON.parse(
-	await GM_getValue(persistenceKey, JSON.stringify("{}"))
-);
+let videos = JSON.parse(await GM_getValue(persistenceKey, JSON.stringify("{}")));
 if (videos.constructor === "".constructor) {
 	videos = JSON.parse(videos);
 }
@@ -101,11 +96,7 @@ function processUnprocessedElements() {
 	}
 	if (timer === -1) {
 		logger.log1(`Starting timer for processing elements`);
-		timer = setTimeout(
-			processElements,
-			200,
-			document.querySelectorAll("a.ytd-thumbnail:not([data-processed])")
-		);
+		timer = setTimeout(processElements, 200, document.querySelectorAll("a.ytd-thumbnail:not([data-processed])"));
 	}
 }
 
@@ -120,14 +111,9 @@ function processElements(elements) {
 		const video = element;
 		logger.log1(`Processing element ${video}`);
 		video.setAttribute("data-processed", "true");
-		const videoTitleElement =
-			video.parentElement.parentElement.parentElement.querySelector(
-				"#video-title"
-			);
+		const videoTitleElement = video.parentElement.parentElement.parentElement.querySelector("#video-title");
 		if (videoTitleElement === null || videoTitleElement === undefined) {
-			logger.log1(
-				`Could not find video title element for video ${video}`
-			);
+			logger.log1(`Could not find video title element for video ${video}`);
 			return null;
 		}
 		const videoTitle = videoTitleElement.innerText.trim();
@@ -137,51 +123,30 @@ function processElements(elements) {
 			videos[videoTitle] = 0;
 		}
 		if (isNaN(videos[videoTitle])) {
-			logger.log1(
-				`Video title in seen videos, but value is not a number, resetting it`
-			);
+			logger.log1(`Video title in seen videos, but value is not a number, resetting it`);
 			videos[videoTitle] = 0;
 		}
 		videos[videoTitle]++;
-		logger.log1(
-			`Video title in seen videos, value is ${videos[videoTitle]}`
-		);
+		logger.log1(`Video title in seen videos, value is ${videos[videoTitle]}`);
 
-		logger.log1(
-			`Setting video title to (${videos[videoTitle]}) ${videoTitle}`
-		);
+		logger.log1(`Setting video title to (${videos[videoTitle]}) ${videoTitle}`);
 		videoTitleElement.innerText = `(${videos[videoTitle]}) ${videoTitle}`;
 		if (videos[videoTitle] > GM_config.get("BLOCK_THRESHOLD")) {
 			logger.log1(
-				`Video title has been seen ${
-					videos[videoTitle]
-				} times (over ${GM_config.get(
+				`Video title has been seen ${videos[videoTitle]} times (over ${GM_config.get(
 					"BLOCK_THRESHOLD"
 				)} threshold), blocking it`
 			);
 			console.log(video);
 			if (window.location.href == "https://www.youtube.com/") {
-				logger.log1(
-					`Window location recognized as youtube homepage, blocking video`
-				);
-				video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display =
-					"none";
-			} else if (
-				window.location.href ==
-				"https://www.youtube.com/feed/subscriptions"
-			) {
-				logger.log1(
-					`Window location recognized as youtube subscriptions page, skipping`
-				);
+				logger.log1(`Window location recognized as youtube homepage, blocking video`);
+				video.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = "none";
+			} else if (window.location.href == "https://www.youtube.com/feed/subscriptions") {
+				logger.log1(`Window location recognized as youtube subscriptions page, skipping`);
 				break;
-			} else if (
-				/https:\/\/www\.youtube\.com\/.+/.test(window.location.href)
-			) {
-				logger.log1(
-					`Window location recognized as youtube video page, blocking video`
-				);
-				video.parentElement.parentElement.parentElement.style.display =
-					"none";
+			} else if (/https:\/\/www\.youtube\.com\/.+/.test(window.location.href)) {
+				logger.log1(`Window location recognized as youtube video page, blocking video`);
+				video.parentElement.parentElement.parentElement.style.display = "none";
 			}
 		}
 	}

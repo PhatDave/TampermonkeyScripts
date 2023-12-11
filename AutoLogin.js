@@ -45,20 +45,12 @@ console.log(info);
 for (const key of Object.keys(info)) {
 	const item = info[key];
 	const urlRe = parseToRegex(item.urlRegex);
-	console.log(
-		`Checking for match for ${key} (using ${atob(item.urlRegex)}) on ${
-			window.location.href
-		}`
-	);
+	console.log(`Checking for match for ${key} (using ${atob(item.urlRegex)}) on ${window.location.href}`);
 	if (matchUrl(window.location.href, urlRe)) {
 		const loginInfo = item;
 		console.log(`Matched ${key} on ${window.location.href}`);
 		try {
-			console.log(
-				`Running trigger function for ${key}: ${atob(
-					loginInfo.triggerFunction
-				)}`
-			);
+			console.log(`Running trigger function for ${key}: ${atob(loginInfo.triggerFunction)}`);
 			if (eval(atob(loginInfo.triggerFunction))()) {
 				console.log(`Login time`);
 				doLogin(item);
@@ -122,40 +114,26 @@ async function doLogin(loginInfo) {
 			console.log("Error finding login entry");
 		}
 		try {
-			console.log(
-				`Looking for password entry via ${loginInfo.passwordEntry}`
-			);
-			passwordEntry = await waitForElement(
-				loginForm,
-				loginInfo.passwordEntry
-			);
+			console.log(`Looking for password entry via ${loginInfo.passwordEntry}`);
+			passwordEntry = await waitForElement(loginForm, loginInfo.passwordEntry);
 			console.log(`Found password entry: ${passwordEntry}`);
 		} catch (DOMException) {
 			console.log("Error finding password entry");
 		}
 		try {
-			console.log(
-				`Looking for login button via ${loginInfo.loginButton}`
-			);
-			loginButton = await waitForElement(
-				loginForm,
-				loginInfo.loginButton
-			);
+			console.log(`Looking for login button via ${loginInfo.loginButton}`);
+			loginButton = await waitForElement(loginForm, loginInfo.loginButton);
 			console.log(`Found login button: ${loginButton}`);
 		} catch (DOMException) {
 			console.log("Error finding login button");
 		}
 
 		if (loginEntry) {
-			console.log(
-				`Setting login entry value to ${atob(loginInfo.login)}`
-			);
+			console.log(`Setting login entry value to ${atob(loginInfo.login)}`);
 			loginEntry.value = atob(loginInfo.login);
 		}
 		if (passwordEntry) {
-			console.log(
-				`Setting password entry value to ${atob(loginInfo.password)}`
-			);
+			console.log(`Setting password entry value to ${atob(loginInfo.password)}`);
 			passwordEntry.value = atob(loginInfo.password);
 		}
 		if (loginButton) {

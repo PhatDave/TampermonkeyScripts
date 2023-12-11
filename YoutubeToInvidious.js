@@ -10,10 +10,7 @@ function doRedirect() {
 	if (!/www.youtube.com\/watch\?v=.*/.test(currentUrl)) {
 		return;
 	}
-	const newUrl = currentUrl.replace(
-		"www.youtube.com",
-		"invidious.site.quack-lab.dev"
-	);
+	const newUrl = currentUrl.replace("www.youtube.com", "invidious.site.quack-lab.dev");
 	location.replace(newUrl);
 }
 

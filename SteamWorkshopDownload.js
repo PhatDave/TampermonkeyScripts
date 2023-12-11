@@ -33,7 +33,7 @@ function createElementFromHTML(htmlString) {
 	return div.firstChild;
 }
 
-let patt = new RegExp("[0-9]{2,15}");
+let patt = /\d{2,15}/;
 let id = patt.exec(document.URL);
 
 waitForElm(document, "#SubscribeItemBtn").then((elm) => {

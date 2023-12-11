@@ -35,12 +35,9 @@ function createElementFromHTML(htmlString) {
 	return div.firstChild;
 }
 
-const rssFeedUrlTemplate =
-	"https://store.steampowered.com/feeds/news/app/{appId}/";
+const rssFeedUrlTemplate = "https://store.steampowered.com/feeds/news/app/{appId}/";
 
-let appId = /https:\/\/store\.steampowered\.com\/app\/(\d+)/.exec(
-	window.location.href
-)[1];
+let appId = /https:\/\/store\.steampowered\.com\/app\/(\d+)/.exec(window.location.href)[1];
 let rssFeedUrl = rssFeedUrlTemplate.replace("{appId}", appId);
 
 waitForElm(".apphub_HeaderStandardTop").then((elm) => {

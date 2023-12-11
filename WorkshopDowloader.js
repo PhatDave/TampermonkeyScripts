@@ -43,11 +43,7 @@ function createElementFromHTML(htmlString) {
 
 function getOrCreateUser() {
 	return new Promise((resolve) => {
-		fetch(
-			`${pocketbaseUrl}/user/records?filter=(name='${localStorage.getItem(
-				userNameStorageKey
-			)}')`
-		)
+		fetch(`${pocketbaseUrl}/user/records?filter=(name='${localStorage.getItem(userNameStorageKey)}')`)
 			.then((res) => res.json())
 			.then((json) => {
 				if (json.totalItems === 0) {
@@ -145,24 +141,19 @@ if (isQueueAll) {
 			elements.forEach((elm) => {
 				elm.style =
 					"display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 20vw";
-				const node =
-					createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
+				const node = createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
                                                           style="text-align: center">ENQUEUE</span>`);
 				elm.prepend(node);
 				node.addEventListener("click", () => {
-					let url =
-						elm.parentElement.parentElement.children[1].children[0]
-							.href;
+					let url = elm.parentElement.parentElement.children[1].children[0].href;
 					postWorkshopItem(url);
 				});
 			});
 		});
 
 		waitForElm(document, ".workshopBrowsePagingWithBG").then((elm) => {
-			elm.style =
-				"display: flex; flex-direction: row; justify-content: space-between; align-items: center;";
-			const node =
-				createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
+			elm.style = "display: flex; flex-direction: row; justify-content: space-between; align-items: center;";
+			const node = createElementFromHTML(`<span class="general_btn subscribe panelSwitch toggled"
                                                       style="width: 15vw; text-align: center">ENQUEUE ALL</span>`);
 			elm.prepend(node);
 			node.addEventListener("click", () => {
