@@ -8,12 +8,12 @@
 // ==/UserScript==
 
 function waitForElm(element, selector) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		if (element.querySelector(selector)) {
 			return resolve(element.querySelector(selector));
 		}
 
-		const observer = new MutationObserver(mutations => {
+		const observer = new MutationObserver((mutations) => {
 			if (element.querySelector(selector)) {
 				resolve(element.querySelector(selector));
 				observer.disconnect();
@@ -22,13 +22,13 @@ function waitForElm(element, selector) {
 
 		observer.observe(document.body, {
 			childList: true,
-			subtree: true
+			subtree: true,
 		});
 	});
 }
 
 function createElementFromHTML(htmlString) {
-	let div = document.createElement('div');
+	let div = document.createElement("div");
 	div.innerHTML = htmlString.trim();
 	return div.firstChild;
 }
@@ -36,7 +36,7 @@ function createElementFromHTML(htmlString) {
 let patt = new RegExp("[0-9]{2,15}");
 let id = patt.exec(document.URL);
 
-waitForElm(document, "#SubscribeItemBtn").then(elm => {
+waitForElm(document, "#SubscribeItemBtn").then((elm) => {
 	elm = elm.parentNode;
 	let node = createElementFromHTML(`<div class="apphub_OtherSiteInfo">
 	<a class="btnv6_blue_hoverfade btn_medium" href="http://steamworkshop.download/download/view/${id}">

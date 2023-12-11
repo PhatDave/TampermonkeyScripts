@@ -24,12 +24,12 @@ function padLeft(str, len, char) {
 	return str;
 }
 function waitForElement(selector) {
-	return new Promise(resolve => {
+	return new Promise((resolve) => {
 		if (document.querySelector(selector)) {
 			return resolve(document.querySelector(selector));
 		}
 
-		const observer = new MutationObserver(mutations => {
+		const observer = new MutationObserver((mutations) => {
 			if (document.querySelector(selector)) {
 				resolve(document.querySelector(selector));
 				observer.disconnect();
@@ -38,7 +38,7 @@ function waitForElement(selector) {
 
 		observer.observe(document.body, {
 			childList: true,
-			subtree: true
+			subtree: true,
 		});
 	});
 }
@@ -48,10 +48,10 @@ let tenMinButton = await waitForElement(".range-button > button:nth-child(1)");
 let searchButton = await waitForElement(".pull-right > button:nth-child(1)");
 
 // let originalMethod = searchButton.onclick;
-searchButton.onclick = function(event) {
+searchButton.onclick = function (event) {
 	let time = timeInput.value;
 	if (time === "") {
 		tenMinButton.click();
 	}
 	// originalMethod(event);
-}
+};

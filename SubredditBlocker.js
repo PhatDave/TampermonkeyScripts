@@ -42,10 +42,14 @@ class Logger {
 		let seconds = this.leftPad(date.getSeconds(), 2, 0);
 		let milliseconds = this.leftPad(date.getMilliseconds(), 3, 0);
 
-		let datePrefix = `[${day}/${month}/${year}-${hours}:${minutes}:${seconds}:${milliseconds}]`
+		let datePrefix = `[${day}/${month}/${year}-${hours}:${minutes}:${seconds}:${milliseconds}]`;
 
 		// let out = `${datePrefix} [${this.clazz}] (${logLevel}) ${data}`;
-		let out = datePrefix.padEnd(30, ' ') + `[${this.clazz}]`.padEnd(28, ' ') + `(${logLevel})`.padEnd(8, ' ') + data;
+		let out =
+			datePrefix.padEnd(30, " ") +
+			`[${this.clazz}]`.padEnd(28, " ") +
+			`(${logLevel})`.padEnd(8, " ") +
+			data;
 		console.log(out);
 	}
 
@@ -61,7 +65,9 @@ let logger = new Logger("TamperMonkey-SubredditBlocker");
 
 let persistenceKey = "blockedReddits";
 // GM_setValue(persistenceKey, JSON.stringify("[]"))
-let blocked = JSON.parse(await GM_getValue(persistenceKey, JSON.stringify("[]")));
+let blocked = JSON.parse(
+	await GM_getValue(persistenceKey, JSON.stringify("[]"))
+);
 if (blocked.constructor === "".constructor) {
 	blocked = JSON.parse(blocked);
 }
@@ -69,7 +75,9 @@ blocked = blocked.sort();
 console.log(blocked);
 
 function sleep(ms) {
-	return new Promise(resolve => setTimeout(() => resolve({time: ms}), ms))
+	return new Promise((resolve) =>
+		setTimeout(() => resolve({ time: ms }), ms)
+	);
 }
 
 class ElementProcessor {
@@ -90,7 +98,9 @@ class ElementProcessor {
 			logger.log1(`Processing queue`);
 			this.processing = true;
 			while (Object.keys(this.elementQueue).length > 0) {
-				logger.log1(`${Object.keys(this.elementQueue).length} elements in queue`);
+				logger.log1(
+					`${Object.keys(this.elementQueue).length} elements in queue`
+				);
 				let key = Object.keys(this.elementQueue).shift();
 				let element = this.elementQueue[key];
 				this.processElement(element);
@@ -108,10 +118,12 @@ class ElementProcessor {
 		let subreddit = this.getSubredditFromLink(element.href);
 		if (subreddit in this.blockedSubreddits) {
 			logger.log1(`Blocking subreddit ${subreddit}`);
-			element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
+			element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.display =
+				"none";
 		} else {
 			logger.log1(`Setting display to block`);
-			element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.display = 'block';
+			element.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.style.display =
+				"block";
 			if (!!!element.attributes["has-delete-button"]) {
 				element.setAttribute("has-delete-button", "true");
 				logger.log1(`Adding delete button to subreddit ${subreddit}`);
@@ -124,7 +136,10 @@ class ElementProcessor {
 
 	getSubredditFromLink(url) {
 		logger.log1(`Getting subreddit from link ${url}`);
-		let subreddit = url.replace("https://www.reddit.com/r/", "").split("/")[0].toLowerCase()
+		let subreddit = url
+			.replace("https://www.reddit.com/r/", "")
+			.split("/")[0]
+			.toLowerCase();
 		logger.log1(`Subreddit is ${subreddit}`);
 		return subreddit;
 	}
@@ -149,7 +164,9 @@ class ElementProcessor {
 let elementProcessor = new ElementProcessor(blocked);
 
 function processUnprocessedElements() {
-	let elements = document.querySelectorAll('a[data-click-id="body"]:not([processing-queued]):not([data-processed])');
+	let elements = document.querySelectorAll(
+		'a[data-click-id="body"]:not([processing-queued]):not([data-processed])'
+	);
 	elementProcessor.pushAllToQueue(elements);
 }
 
@@ -162,21 +179,21 @@ function processAllElements() {
 }
 
 function blockSubreddit(event, target) {
-	let a = event.target.parentElement.querySelector('a');
+	let a = event.target.parentElement.querySelector("a");
 	let subreddit = getSubredditFromLink(a.href);
 	blocked.push(subreddit);
 	GM_setValue(persistenceKey, JSON.stringify(blocked));
 	let listItem = createBlockedSubredditListItem(subreddit);
-	document.querySelector('div.subredditList').append(listItem);
+	document.querySelector("div.subredditList").append(listItem);
 	processAllElements();
 }
 
 function createButton() {
-	return htmlToElement(`<button class="deleteButton">D E L E T E</button>`)
+	return htmlToElement(`<button class="deleteButton">D E L E T E</button>`);
 }
 
 function htmlToElement(html) {
-	let template = document.createElement('template');
+	let template = document.createElement("template");
 	html = html.trim();
 	template.innerHTML = html;
 	return template.content.firstChild;
@@ -185,14 +202,16 @@ function htmlToElement(html) {
 let runCount = 0;
 
 function addSidebarIfNotExist() {
-	if (!document.querySelector('div.subredditList')) {
-		let sidebar = document.querySelector('div[data-testid="frontpage-sidebar"] > div:last-child > div:last-child');
+	if (!document.querySelector("div.subredditList")) {
+		let sidebar = document.querySelector(
+			'div[data-testid="frontpage-sidebar"] > div:last-child > div:last-child'
+		);
 		let listContainer = htmlToElement(`<div>
 	Blocked subreddits
 	<div class="subredditList overflow-scroll" style="10vh">
 	</div>
 </div>`);
-		let subredditList = listContainer.querySelector('div.subredditList');
+		let subredditList = listContainer.querySelector("div.subredditList");
 		blocked.forEach((item) => {
 			let itemElement = createBlockedSubredditListItem(item);
 			subredditList.append(itemElement);
@@ -223,13 +242,13 @@ function createBlockedSubredditListItem(subreddit) {
 
 // Block future elements that are not yet rendered
 new MutationObserver((mutations) => {
-	mutations = mutations.filter(mutation => mutation.addedNodes.length > 0);
+	mutations = mutations.filter((mutation) => mutation.addedNodes.length > 0);
 	if (mutations.length > 0) {
 		processUnprocessedElements();
 	}
 }).observe(document.documentElement, {
 	childList: true,
-	subtree: true
+	subtree: true,
 });
 
 processAllElements();

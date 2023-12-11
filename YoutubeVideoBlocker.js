@@ -121,7 +121,9 @@ function processElements(elements) {
 		logger.log1(`Processing element ${video}`);
 		video.setAttribute("data-processed", "true");
 		const videoTitleElement =
-			video.parentElement.parentElement.parentElement.querySelector("#video-title");
+			video.parentElement.parentElement.parentElement.querySelector(
+				"#video-title"
+			);
 		if (videoTitleElement === null || videoTitleElement === undefined) {
 			logger.log1(
 				`Could not find video title element for video ${video}`
